@@ -3,6 +3,8 @@ const router = express.Router();
 
 const articleController = require('../controller/articleController');
 
+router.get('/search', articleController.searchArticles);
+
 router.get('/',articleController.getAllArticles);
 
 router.get('/:id',articleController.getArticleById);

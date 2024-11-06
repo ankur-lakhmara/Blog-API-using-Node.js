@@ -55,3 +55,21 @@ exports.deleteArticle = async (req, res) => {
         res.status(500).json({ message: "error while deleting article", err })
     }
 }
+
+exports.searchArticles = async (req, res) => {
+    const { term } = req.query;
+    
+    try {
+      const articles = await Article.find({
+        $or: [
+          { title: { $regex: term, $options: 'i' } },
+          { content: { $regex: term, $options: 'i' } },
+          { tags: { $regex: term, $options: 'i' } }
+        ]
+      });
+  
+      res.status(200).json(articles);
+    } catch (error) {
+      res.status(500).json({ message: 'Error searching articles', error });
+    }
+  };
